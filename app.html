@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="roundft">
+<head>
+  <title>Car Servicing App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="ngmodules/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script>
+	angular.module("roundft",[]);
+	angular.module("roundft").controller("roundftCtrl",function($scope,$http){
+		$scope.msg=null;
+		$scope.data={};
+		
+		$scope.createUser= function(ab){
+			$http.post('http://localhost/ngp/php/create.php',ab).success(function(id){
+				$scope.msg="Your request accepted. Please Wait for response in your email.";
+				$scope.about=null;
+			}).error(function(error){
+				$scope.msg=error;
+			});
+		}
+		
+	})
+  </script>
+
+  <style>
+   .fakeimg {
+    height: 200px;
+    background: #aaa;
+  }
+  </style>
+</head>
+
+<body ng-controller="roundftCtrl">
+
+<div class="card">
+<nav class="navbar navbar-expand-sm bg-info navbar-dark">
+  <a class="navbar-brand" href="#"><h2><b>CAR SERVICE STATION</b></h2></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">About Us</a>
+      </li>   
+    </ul>
+  </div>  
+</nav>
+
+<div class="container mb-4" style="margin-top:30px">
+  <div class="row">
+  <div class="col-md-2"> </div>
+    <div class="col-sm-8">
+	<form method="POST" action="">
+      <h3 class="text-center">REQUEST FOR SERVICE</h3>
+	  <div ng-show="msg" class="alert alert-success">
+		{{ msg }}
+	  </div>
+      <div class="bg-info p-3 text-white">
+		
+		  <div class="form-group">
+			<label>Name:</label>
+			<input type="text" name="name" class="form-control" placeholder="Name" ng-model="about.name">
+		  </div>
+		  <div class="form-group">
+			<label>Contact:</label>
+			<input type="text" name="contact" class="form-control" placeholder="Contact" ng-model="about.contact">
+		  </div>
+		  <div class="form-group">
+			<label>Email:</label>
+			<input type="email" name="email" class="form-control" placeholder="Email Address" ng-model="about.email">
+		  </div>
+		  <div class="form-group">
+			<label>Service For Detail:</label>
+			<textarea name="service" class="form-control" ng-model="about.service"></textarea>
+		  </div>
+		  <button ng-hide="about.id" type="button" ng-click="createUser(about)" class="btn btn-warning">Submit</button>
+		  <button type="button" ng-click="emptyData()" class="btn btn-danger float-right">Cancel</button>
+	  </div>
+	  
+	</form>
+      <hr class="d-sm-none">
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
